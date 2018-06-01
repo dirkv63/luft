@@ -1,0 +1,14 @@
+############
+# Git Ignore
+############
+*.swp
+*.zip
+*.dot
+*.dot-input
+*.gif
+*.mwb.bak
+*__pycache__/*
+*.idea/*
+*data/*
+*.pyc
+properties/*
