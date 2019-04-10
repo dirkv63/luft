@@ -8,7 +8,7 @@ from lib import luft_store
 
 cfg = my_env.init_env("luftdaten", __file__)
 logging.info("Start application")
-luft = luft_store.DirectConn(cfg)
+luft = luft_store.DirectConn()
 luft.rebuild()
 logging.info("sqlite database luft rebuild")
 logging.info("End application")

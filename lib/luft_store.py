@@ -43,11 +43,11 @@ class DirectConn:
     in which case the database will be dropped and recreated, including all tables.
     """
 
-    def __init__(self, config):
+    def __init__(self):
         """
         To drop a database in sqlite3, you need to delete the file.
         """
-        self.db = config['Main']['db']
+        self.db = os.path.join(os.getenv("DBDIR"), os.getenv("DB"))
         self.dbConn = ""
         self.cur = ""
 
@@ -81,16 +81,14 @@ class DirectConn:
         Base.metadata.create_all(engine)
 
 
-def init_session(db, echo=False):
+def init_session(echo=False):
     """
     This function configures the connection to the database and returns the session object.
 
-    :param db: Name of the sqlite3 database.
-
     :param echo: True / False, depending if echo is required. Default: False
-
     :return: session object.
     """
+    db = os.path.join(os.getenv("DBDIR"), os.getenv("DB"))
     conn_string = "sqlite:///{db}".format(db=db)
     engine = set_engine(conn_string, echo)
     session = set_session4engine(engine)

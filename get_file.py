@@ -17,7 +17,6 @@ def add_sensor(mr):
     This function will verify and add (if required) new sensor information to the sensor table.
 
     :param mr: Dictionary row from luftdaten with sensor and measurement information.
-
     :return:
     """
     try:
@@ -40,7 +39,7 @@ def add_sensor(mr):
 
 sensor_ids = [12988, 13191, 13887, 13889]
 cfg = my_env.init_env("luftdaten", __file__)
-luft_eng = luft_store.init_session(cfg["Main"]["db"])
+luft_eng = luft_store.init_session()
 known_sensors = []
 url_base = cfg["Luftdaten"]["archive"]
 for td in range(1, 4):
