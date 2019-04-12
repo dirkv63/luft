@@ -5,7 +5,7 @@ This module consolidates Database access for the lkb project.
 import logging
 import os
 import sqlite3
-from sqlalchemy import Column, Integer, Text, create_engine, ForeignKey
+from sqlalchemy import Column, Integer, Text, create_engine, ForeignKey, REAL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -21,8 +21,11 @@ class Measurement(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     sensor_id = Column(Integer, ForeignKey("sensor.sensor_id"))
     timestamp = Column(Integer, nullable=False)
-    p1 = Column(Integer)
-    p2 = Column(Integer)
+    p1 = Column(REAL)
+    p2 = Column(REAL)
+    temperature = Column(REAL)
+    humidity = Column(REAL)
+    signal = Column(Integer)
 
 
 class Sensor(Base):

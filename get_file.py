@@ -1,5 +1,6 @@
 """
 This script will collect a file from the archive.
+File is from URL_BASE http://archive.luftdaten.info/
 """
 
 import pandas
@@ -41,7 +42,7 @@ sensor_ids = [12988, 13191, 13887, 13889]
 cfg = my_env.init_env("luftdaten", __file__)
 luft_eng = luft_store.init_session()
 known_sensors = []
-url_base = cfg["Luftdaten"]["archive"]
+url_base = os.getenv("URL_BASE")
 for td in range(1, 4):
     for sensor_id in sensor_ids:
         dfc = date.today() - timedelta(td)
