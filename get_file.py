@@ -12,6 +12,8 @@ from lib.luft_store import *
 from pandas.compat import BytesIO
 from sqlalchemy.orm.exc import NoResultFound
 
+start_date = "2019/04/01 00:00:00"
+
 
 def add_sensor(mr):
     """

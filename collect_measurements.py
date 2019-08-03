@@ -1,6 +1,12 @@
 """
-This script will collect the current measurement.
+This script will collect the current measurements from particle/temperature file.
 File is from URL_BASE https://www.madavi.de/sensor/csvfiles.php
+Start Date is first day of current month. Previous month information is compressed per month.
+
+The script will collect measurement information per sensor and for the additional measurements. Therefore the date/time
+of the most recent measurement for the sensor is calculated, then files for last measurement until today are collected
+and measurements are added to the database. The assumption is that measurements are available in strict FIFO sequence.
+Once a measurement on specific date/time is available, then it is never required to check before this time.
 """
 
 import pandas
@@ -10,16 +16,18 @@ from lib import my_env
 from lib import luft_store
 from lib.luft_store import *
 from pandas.compat import BytesIO
-from sqlalchemy.orm.exc import NoResultFound
 
-
+start_date = date.today().replace(day=1)
 sensor_ids = ["esp8266-72077"]
 cfg = my_env.init_env("luftdaten", __file__)
 luft_eng = luft_store.init_session()
 known_sensors = []
 url_base = os.getenv("URL_BASE")
-for td in range(1, 4):
-    for sensor_id in sensor_ids:
+
+for sensor_id in sensor_ids:
+    # Get timestamp for most recent measurement
+    last_measurement = luft_eng.query(Measurement).filter_by(sensor_id=sensor_id).max()
+    for td in reversed(range(1, 4)):
         dfc = date.today() - timedelta(td)
         ds = dfc.strftime("%Y-%m-%d")
         fn = "data-{id}-{ds}.csv".format(ds=ds, id=sensor_id)

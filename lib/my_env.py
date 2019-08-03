@@ -121,10 +121,10 @@ def date2epoch(ds):
     """
     This function will convert a date time string to epoch for storage in SQLite table.
 
-    :param ds: Date time string in format %Y-%m-%d %H:%M:%S
+    :param ds: Date time string in format %Y/%m/%d %H:%M:%S
     :return: epoch - seconds since 1/01/1970
     """
-    utc_time = time.strptime(ds, "%Y-%m-%dT%H:%M:%S")
+    utc_time = time.strptime(ds, "%Y/%m/%d %H:%M:%S")
     return timegm(utc_time)
 
 

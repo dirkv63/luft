@@ -5,7 +5,7 @@ This module consolidates Database access for the lkb project.
 import logging
 import os
 import sqlite3
-from sqlalchemy import Column, Integer, Text, create_engine, ForeignKey, REAL
+from sqlalchemy import Column, Integer, Text, create_engine, REAL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -19,13 +19,28 @@ class Measurement(Base):
     """
     __tablename__ = "measurement"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    sensor_id = Column(Integer, ForeignKey("sensor.sensor_id"))
+    sensor_id = Column(Text)
     timestamp = Column(Integer, nullable=False)
     p1 = Column(REAL)
     p2 = Column(REAL)
     temperature = Column(REAL)
     humidity = Column(REAL)
     signal = Column(Integer)
+    samples = Column(Integer)
+    min_cycle = Column(Integer)
+    max_cycle = Column(Integer)
+
+
+def get_latest_ts(sensor_id):
+    """
+    This method returns the latest timestamp for the sensor_id.
+
+    :param sensor_id: Sensor ID for which the latest Timestamp is required.
+    :return:
+    """
+    measurements = Measurement.query.filter_by(sensor_id=sensor_id).all()
+    for measurement in measurements:
+        print(measurement)
 
 
 class Sensor(Base):
