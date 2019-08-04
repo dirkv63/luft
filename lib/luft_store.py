@@ -1,5 +1,5 @@
 """
-This module consolidates Database access for the lkb project.
+This module consolidates Database configuration for the Luft project.
 """
 
 import logging
