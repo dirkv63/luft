@@ -5,7 +5,6 @@ This module consolidates methods (and classes) related to the Luft application.
 from lib import luft_store
 from lib.luft_store import *
 from lib import my_env
-from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql import func
 
 
@@ -20,12 +19,12 @@ class Luft:
         :param sensor_id: Sensor ID
         :return: Timestamp of the latest measurement (epoch) or 0 if no measurements.
         """
-        try:
-            ts_rec = self.db_eng.query(func.max(Measurement.timestamp).label('max')).filter_by(
-                sensor_id=sensor_id).one()
-            max_ts = ts_rec.max
+        ts_rec = self.db_eng.query(func.max(Measurement.timestamp).label('max')).filter_by(
+            sensor_id=sensor_id).one()
+        max_ts = ts_rec.max
+        if max_ts:
             return max_ts
-        except NoResultFound:
+        else:
             return 0
 
     def store_measurements(self, sensor_id, measures, max_ts=0):
@@ -35,7 +34,7 @@ class Luft:
 
         :param sensor_id: ID of the sensor for which measurements need to be stored.
         :param measures: Measurements in Pandas dataframe format.
-        :param max_ts: If specified then only measurements more recent than timestamp will be added.
+        :param max_ts: If specified then only measurements more recent compared to timestamp will be added.
         :return:
         """
         my_loop = my_env.LoopInfo("records from {fn}".format(fn=sensor_id), 100)

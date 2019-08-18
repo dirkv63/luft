@@ -9,6 +9,8 @@ import logging
 import logging.handlers
 import os
 import platform
+import subprocess
+import sys
 import time
 from calendar import timegm
 from datetime import datetime
@@ -138,6 +140,21 @@ def date2epochv2(ds):
     utc_time = time.strptime(ds, "%Y/%m/%d %H:%M:%S")
     return timegm(utc_time)
 
+
+def run_script(path, script_name, *args):
+    """
+    This function will run a python script with arguments.
+
+    :param path: Full path to the script.
+    :param script_name: Name of the script. Include .py if this is the script extension.
+    :param args: List of script arguments.
+    :return:
+    """
+    script_path = os.path.join(path, script_name)
+    cmd = [sys.executable, script_path] + list(args)
+    logging.info(cmd)
+    subprocess.call(cmd, env=os.environ.copy())
+    return
 
 
 class LoopInfo:

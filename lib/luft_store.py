@@ -1,5 +1,5 @@
 """
-This module consolidates Database configuration for the Luft project.
+This module consolidates Database configuration and handling for the Luft project.
 """
 
 import logging
@@ -29,18 +29,6 @@ class Measurement(Base):
     samples = Column(Integer)
     min_cycle = Column(Integer)
     max_cycle = Column(Integer)
-
-
-def get_latest_ts(sensor_id):
-    """
-    This method returns the latest timestamp for the sensor_id.
-
-    :param sensor_id: Sensor ID for which the latest Timestamp is required.
-    :return:
-    """
-    measurements = Measurement.query.filter_by(sensor_id=sensor_id).all()
-    for measurement in measurements:
-        print(measurement)
 
 
 class Sensor(Base):
