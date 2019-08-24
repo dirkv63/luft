@@ -23,7 +23,6 @@ zfile = zipfile.ZipFile(measure_file)
 for finfo in zfile.infolist():
     ifile = zfile.open(finfo)
     df = pandas.read_csv(ifile, delimiter=";")
-    max_ts = luft.latest_measurement(sensor)
-    luft.store_measurements(sensor, df, max_ts)
+    luft.store_measurements(sensor, df)
 
 logging.info("End application")

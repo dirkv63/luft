@@ -27,17 +27,17 @@ class Luft:
         else:
             return 0
 
-    def store_measurements(self, sensor_id, measures, max_ts=0):
+    def store_measurements(self, sensor_id, measures):
         """
         This method gets measurement information from a sensor and stores the information in the database. If timestamp
         is provided, then only measurements more recent than the timestamp will be stored.
 
         :param sensor_id: ID of the sensor for which measurements need to be stored.
         :param measures: Measurements in Pandas dataframe format.
-        :param max_ts: If specified then only measurements more recent compared to timestamp will be added.
         :return:
         """
         my_loop = my_env.LoopInfo("records from {fn}".format(fn=sensor_id), 100)
+        max_ts = self.latest_measurement(sensor_id)
         rec_cnt = 0
         for row in measures.iterrows():
             my_loop.info_loop()

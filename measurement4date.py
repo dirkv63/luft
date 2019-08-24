@@ -41,8 +41,7 @@ rec_cnt = 0
 if res.status_code == 200:
     # Convert csv file into Pandas dataframe.
     df = pandas.read_csv(BytesIO(res.content), delimiter=";")
-    max_ts = luft.latest_measurement(args.sensor)
-    luft.store_measurements(args.sensor, df, max_ts)
+    luft.store_measurements(args.sensor, df)
 else:
     logging.info("Extract for sensor not successful, return code: {}".format(res.status_code))
 logging.info("End application")
