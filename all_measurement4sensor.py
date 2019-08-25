@@ -36,8 +36,6 @@ if res.status_code == 200:
     csvs = [link for link in links if '.csv' in link]
     for zip in zips:
         print(zip)
-    for csv in csvs:
-        print(csv)
 else:
     logging.info("Extract for sensor not successful, return code: {}".format(res.status_code))
 logging.info("End application")
