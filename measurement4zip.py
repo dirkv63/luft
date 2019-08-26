@@ -3,7 +3,6 @@ This script gets a zip file and processes all measurement files in it.
 """
 
 import argparse
-import pandas
 import requests
 import zipfile
 from lib import my_env
@@ -17,7 +16,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument('-s', '--sensor', type=str, default='esp8266-72077',
                     help='Please provide the sensor id (as used on https://www.madavi.de/sensor/csvfiles.php)')
-parser.add_argument('-u', '--url', type=str, default='data_csv/2018/05/data-esp8266-72077-2018-05.zip',
+parser.add_argument('-u', '--url', type=str, default='data_csv/2019/05/data-esp8266-72077-2019-05.zip',
                     help='Please provide the url part to append to https://www.madavi.de/sensor/')
 args = parser.parse_args()
 cfg = my_env.init_env("luftdaten", __file__)
@@ -36,7 +35,6 @@ if res.status_code == 200:
     for finfo in zfile.infolist():
         logging.debug("Handling file {}".format(finfo.filename))
         ifile = zfile.open(finfo)
-        df = pandas.read_csv(ifile, delimiter=";")
-        luft.store_measurements(args.sensor, df)
+        luft.store_measurements(args.sensor, ifile)
 
 logging.info("End application")

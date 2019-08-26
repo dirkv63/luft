@@ -2,6 +2,7 @@
 This module consolidates methods (and classes) related to the Luft application.
 """
 
+import pandas
 from lib import luft_store
 from lib.luft_store import *
 from lib import my_env
@@ -33,13 +34,17 @@ class Luft:
         is provided, then only measurements more recent than the timestamp will be stored.
 
         :param sensor_id: ID of the sensor for which measurements need to be stored.
-        :param measures: Measurements in Pandas dataframe format.
+        :param measures: Measurements that can be fed to pandas.read_csv command..
         :return:
         """
+        columns = ["Time", "durP1", "ratioP1", "P1", "durP2", "ratioP2", "P2", "SDS_P1", "SDS_P2", "PMS_P1", "PMS_P2",
+                   "Temp", "Humidity", "BMP_temperature", "BMP_pressure", "BME280_temperature", "BME280_humidity",
+                   "BME280_pressure", "Samples", "Min_cycle", "Max_cycle", "Signal", "HPM_P1", "HPM_P2"]
+        df = pandas.read_csv(measures, delimiter=";", names=columns, skiprows=1)
         my_loop = my_env.LoopInfo("records from {fn}".format(fn=sensor_id), 100)
         max_ts = self.latest_measurement(sensor_id)
         rec_cnt = 0
-        for row in measures.iterrows():
+        for row in df.iterrows():
             my_loop.info_loop()
             # Get excel/csv row in dict format
             xl = row[1].to_dict()

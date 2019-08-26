@@ -27,15 +27,15 @@ logging.info("URL: {url}".format(url=url))
 
 # Collect and process measurements.
 res = requests.get(url)
-rec_cnt = 0
+(fp, filename) = os.path.split(__file__)
 if res.status_code == 200:
     soup = BeautifulSoup(res.content)
     all_refs = soup.find_all('a')
     links = [link.attrs['href'] for link in all_refs]
     zips = [link for link in links if '.zip' in link]
-    csvs = [link for link in links if '.csv' in link]
-    for zip in zips:
-        print(zip)
+    # csvs = [link for link in links if '.csv' in link]
+    for url in zips:
+        my_env.run_script(fp, 'measurement4zip.py', '-s', sensor, '-u', url)
 else:
     logging.info("Extract for sensor not successful, return code: {}".format(res.status_code))
 logging.info("End application")

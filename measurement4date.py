@@ -40,8 +40,8 @@ res = requests.get(url)
 rec_cnt = 0
 if res.status_code == 200:
     # Convert csv file into Pandas dataframe.
-    df = pandas.read_csv(BytesIO(res.content), delimiter=";")
-    luft.store_measurements(args.sensor, df)
+    measures = BytesIO(res.content)
+    luft.store_measurements(args.sensor, measures)
 else:
     logging.info("Extract for sensor not successful, return code: {}".format(res.status_code))
 logging.info("End application")
