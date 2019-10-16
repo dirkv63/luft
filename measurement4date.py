@@ -5,7 +5,6 @@ The data is on location https://www.madavi.de/sensor/data_csv/csv-files/2019-07-
 """
 
 import argparse
-import pandas
 import pytz
 import requests
 from datetime import datetime
@@ -32,8 +31,8 @@ logging.info("Arguments: {a}".format(a=args))
 # Configure URL
 luft = luft_class.Luft()
 url_base = os.getenv("URL_BASE")
-url = "{base}/{ds}/data-{sensor}-{ds}.csv".format(base=url_base, sensor=args.sensor, ds=args.date)
-logging.info("URL: {url}".format(url=url))
+url = "{base}data_csv/csv-files/{ds}/data-{sensor}-{ds}.csv".format(base=url_base, sensor=args.sensor, ds=args.date)
+logging.debug("URL: {url}".format(url=url))
 
 # Collect and process measurements.
 res = requests.get(url)

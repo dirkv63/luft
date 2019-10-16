@@ -41,11 +41,11 @@ class Luft:
                    "Temp", "Humidity", "BMP_temperature", "BMP_pressure", "BME280_temperature", "BME280_humidity",
                    "BME280_pressure", "Samples", "Min_cycle", "Max_cycle", "Signal", "HPM_P1", "HPM_P2"]
         df = pandas.read_csv(measures, delimiter=";", names=columns, skiprows=1)
-        my_loop = my_env.LoopInfo("records from {fn}".format(fn=sensor_id), 100)
+        # my_loop = my_env.LoopInfo("records from {fn}".format(fn=sensor_id), 100)
         max_ts = self.latest_measurement(sensor_id)
         rec_cnt = 0
         for row in df.iterrows():
-            my_loop.info_loop()
+            # my_loop.info_loop()
             # Get excel/csv row in dict format
             xl = row[1].to_dict()
             timestamp = my_env.date2epoch(xl["Time"])
@@ -64,8 +64,8 @@ class Luft:
                     max_cycle=xl["Max_cycle"]
                 )
                 self.db_eng.add(measure_inst)
-        total = my_loop.end_loop()
+        # total = my_loop.end_loop()
         self.db_eng.commit()
         logging.info("{} records have been added.".format(rec_cnt))
-        logging.info("{} records have been processed".format(total))
+        # logging.info("{} records have been processed".format(total))
         return

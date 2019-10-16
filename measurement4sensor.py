@@ -24,16 +24,14 @@ logging.info("Arguments: {a}".format(a=args))
 luft = luft_class.Luft()
 sensor = args.sensor
 max_ts = luft.latest_measurement(sensor)
+start = datetime.datetime.fromtimestamp(max_ts, pytz.utc)
 today = datetime.datetime.now(pytz.utc)
-if max_ts == 0:
-    # Initialize ds to first day of month
-    start = today.replace(day=1)
-else:
-    start = datetime.datetime.fromtimestamp(max_ts, pytz.utc)
+step = datetime.timedelta(days=1)
 
 (fp, filename) = os.path.split(__file__)
-for day in range(start.day, today.day+1):
-    ds = today.replace(day=day).strftime("%Y-%m-%d")
+while start <= today:
+    ds = start.strftime("%Y-%m-%d")
     my_env.run_script(fp, 'measurement4date.py', '-s', sensor, '-d', ds)
+    start += step
 
 logging.info("End application")

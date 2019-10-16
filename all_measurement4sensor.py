@@ -1,6 +1,8 @@
 """
 This script will collect all measurements for a sensor. Available measurements are on
 https://www.madavi.de/sensor/csvfiles.php?sensor=sensor_id
+
+The assumption is that all previous months are available in zip files. Current month measurement data is in csv files.
 """
 
 import argparse
@@ -33,9 +35,10 @@ if res.status_code == 200:
     all_refs = soup.find_all('a')
     links = [link.attrs['href'] for link in all_refs]
     zips = [link for link in links if '.zip' in link]
-    # csvs = [link for link in links if '.csv' in link]
     for url in zips:
         my_env.run_script(fp, 'measurement4zip.py', '-s', sensor, '-u', url)
+    my_env.run_script(fp, 'measurement4sensor.py', '-s', sensor)
+
 else:
     logging.info("Extract for sensor not successful, return code: {}".format(res.status_code))
 logging.info("End application")

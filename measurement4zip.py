@@ -33,7 +33,7 @@ res = requests.get(url)
 if res.status_code == 200:
     zfile = zipfile.ZipFile(BytesIO(res.content))
     for finfo in zfile.infolist():
-        logging.debug("Handling file {}".format(finfo.filename))
+        logging.info("Handling file {}".format(finfo.filename))
         ifile = zfile.open(finfo)
         luft.store_measurements(args.sensor, ifile)
 
