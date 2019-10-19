@@ -1,3 +1,4 @@
+#!/opt/envs/luft/bin/python3
 """
 This script gets a zip file and processes all measurement files in it.
 """

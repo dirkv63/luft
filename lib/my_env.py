@@ -109,7 +109,7 @@ def init_loghandler(modulename):
                                           datefmt='%H:%M:%S')
     # Add Formatter to Console Handler
     ch.setFormatter(formatter_console)
-    logger.addHandler(ch)
+    # logger.addHandler(ch)
     """
     for key in logging.Logger.manager.loggerDict.keys():
         print("Key: {key}".format(key=key))

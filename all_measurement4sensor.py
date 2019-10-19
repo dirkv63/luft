@@ -1,3 +1,5 @@
+#!/opt/envs/luft/bin/python3
+
 """
 This script will collect all measurements for a sensor. Available measurements are on
 https://www.madavi.de/sensor/csvfiles.php?sensor=sensor_id

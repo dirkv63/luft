@@ -1,3 +1,4 @@
+#!/opt/envs/luft/bin/python3
 """
 This procedure will rebuild the sqlite lkb database
 """

@@ -1,3 +1,4 @@
+#!/opt/envs/luft/bin/python3
 """
 This script will collect measurement file for the sensor for a specific day.
 New information will be added to the database. New information is more recent than latest timestamp in the database.

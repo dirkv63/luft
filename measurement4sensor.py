@@ -1,3 +1,4 @@
+#!/opt/envs/luft/bin/python3
 """
 This script will collect measurement file for a specific sensor. Measurements will be collected since last measurement
 in the database. If no measurements in the database, then start day is first of month.
