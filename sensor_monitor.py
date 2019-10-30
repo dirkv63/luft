@@ -27,7 +27,7 @@ luft = luft_class.Luft()
 sensor = args.sensor
 max_ts = luft.latest_measurement(sensor)
 now = time.time()
-max_delta = int(os.getenv('DELTA') * 60)  # Delta time in seconds
+max_delta = int(os.getenv('DELTA')) * 60  # Delta time in seconds
 delta = int(now - max_ts)
 if delta > max_delta:
     logging.info("Delta since last measurement: {} seconds, mail is prepared.".format(delta))
@@ -55,5 +55,5 @@ if delta > max_delta:
     server.quit()
 
 else:
-    logging.debug("Delta since last measurement: {} seconds".format(delta))
+    logging.debug("Delta since last measurement: {} seconds, max_delta: {}".format(delta, max_delta))
 logging.info("End application")
