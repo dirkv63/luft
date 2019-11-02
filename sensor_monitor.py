@@ -28,8 +28,10 @@ sensor = args.sensor
 max_ts = luft.latest_measurement(sensor)
 now = time.time()
 max_delta = int(os.getenv('DELTA')) * 60  # Delta time in seconds
+# Send message only for limited amount of time.
+stop_msg = max_delta * 4
 delta = int(now - max_ts)
-if delta > max_delta:
+if (delta > max_delta) and (delta < stop_msg):
     logging.info("Delta since last measurement: {} seconds, mail is prepared.".format(delta))
     # Mail to user
     msg = MIMEMultipart()
