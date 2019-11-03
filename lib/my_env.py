@@ -85,7 +85,8 @@ def init_loghandler(modulename):
     logdir = os.getenv("LOGDIR")
     loglevel = os.getenv("LOGLEVEL").upper()
     # Define logfileName
-    logfn = "{module}_{host}.log".format(module=modulename, host=platform.node())
+    host = platform.node()
+    logfn = "{module}_{host}.log".format(module=modulename, host=host)
     logfile = os.path.join(logdir, logfn)
     # Configure the root logger
     logger = logging.getLogger()
@@ -108,8 +109,9 @@ def init_loghandler(modulename):
                                               ' %(message)s',
                                           datefmt='%H:%M:%S')
     # Add Formatter to Console Handler
-    ch.setFormatter(formatter_console)
-    # logger.addHandler(ch)
+    if host == 'bizon':
+        ch.setFormatter(formatter_console)
+        logger.addHandler(ch)
     """
     for key in logging.Logger.manager.loggerDict.keys():
         print("Key: {key}".format(key=key))
