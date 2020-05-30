@@ -69,3 +69,61 @@ class Luft:
         logging.info("{} records have been added.".format(rec_cnt))
         # logging.info("{} records have been processed".format(total))
         return
+
+    def store_pm(self, sensor_id, measures):
+        """
+        This method gets particulate matter (pm) measurement information from a sensor and stores the information in
+        the database.
+
+        :param sensor_id: ID of the sensor for which measurements need to be stored.
+        :param measures: Measurements that can be fed to pandas.read_csv command..
+        :return:
+        """
+        df = pandas.read_csv(measures, delimiter=";")
+        max_ts = self.latest_measurement(sensor_id)
+        rec_cnt = 0
+        for row in df.iterrows():
+            # Get excel/csv row in dict format
+            xl = row[1].to_dict()
+            timestamp = my_env.date2epoch(xl["timestamp"])
+            if timestamp > max_ts:
+                rec_cnt += 1
+                measure_inst = Measurement(
+                    sensor_id=sensor_id,
+                    timestamp=timestamp,
+                    p1=xl["P1"],
+                    p2=xl["P2"]
+                )
+                self.db_eng.add(measure_inst)
+        self.db_eng.commit()
+        logging.info("{} records have been added.".format(rec_cnt))
+        return
+
+    def store_temp(self, sensor_id, measures):
+        """
+        This method gets temperature measurement information from a sensor and stores the information in
+        the database.
+
+        :param sensor_id: ID of the sensor for which measurements need to be stored.
+        :param measures: Measurements that can be fed to pandas.read_csv command..
+        :return:
+        """
+        df = pandas.read_csv(measures, delimiter=";")
+        max_ts = self.latest_measurement(sensor_id)
+        rec_cnt = 0
+        for row in df.iterrows():
+            # Get excel/csv row in dict format
+            xl = row[1].to_dict()
+            timestamp = my_env.date2epoch(xl["timestamp"])
+            if timestamp > max_ts:
+                rec_cnt += 1
+                measure_inst = Measurement(
+                    sensor_id=sensor_id,
+                    timestamp=timestamp,
+                    temperature=xl["temperature"],
+                    humidity=xl["humidity"],
+                )
+                self.db_eng.add(measure_inst)
+        self.db_eng.commit()
+        logging.info("{} records have been added.".format(rec_cnt))
+        return

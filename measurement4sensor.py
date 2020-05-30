@@ -16,7 +16,7 @@ from lib.luft_store import *
 parser = argparse.ArgumentParser(
     description="Get measurements for sensor."
 )
-parser.add_argument('-s', '--sensor', type=str, default='esp8266-72077',
+parser.add_argument('-s', '--sensor', type=str, default='sds011_sensor_13889',
                     help='Please provide the sensor id (as used on https://www.madavi.de/sensor/csvfiles.php)')
 args = parser.parse_args()
 cfg = my_env.init_env("luftdaten", __file__)
@@ -30,7 +30,7 @@ today = datetime.datetime.now(pytz.utc).date()
 step = datetime.timedelta(days=1)
 
 (fp, filename) = os.path.split(__file__)
-while start <= today:
+while start < today:
     ds = start.strftime("%Y-%m-%d")
     my_env.run_script(fp, 'measurement4date.py', '-s', sensor, '-d', ds)
     start += step
