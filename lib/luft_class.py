@@ -6,6 +6,7 @@ import pandas
 from lib import luft_store
 from lib.luft_store import *
 from lib import my_env
+from sqlalchemy import or_
 from sqlalchemy.sql import func
 
 
@@ -20,8 +21,8 @@ class Luft:
         :param sensor_id: Sensor ID
         :return: Timestamp of the latest measurement (epoch) or 0 if no measurements.
         """
-        ts_rec = self.db_eng.query(func.max(Measurement.timestamp).label('max')).filter_by(
-            sensor_id=sensor_id).one()
+        ts_rec = self.db_eng.query(func.max(Measurement.timestamp).label('max')).\
+            filter((Measurement.sensor_id==sensor_id) | (Measurement.sensor_id=='esp8266-72077')).one()
         max_ts = ts_rec.max
         if max_ts:
             return max_ts
